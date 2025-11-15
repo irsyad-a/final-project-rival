@@ -1,0 +1,231 @@
+# ============================================================================
+# ROVER CONFIG EXAMPLES - Copy section yang dibutuhkan ke rover_config.yaml
+# ============================================================================
+
+# ===========================================
+# SCENARIO 1: COMPETITION MODE (Full Safety)
+# ===========================================
+# Use case: Real competition with obstacles and boundaries
+# Performance: Medium (15-20 FPS)
+# Safety: Maximum
+
+yellow.enable: true
+yellow.safety_distance_m: 0.40
+obstacle.enable: true
+obstacle.warning_distance_cm: 50
+yolo.enable: true
+yolo.confidence: 0.5
+yolo.detection_interval: 3
+camera.width: 640
+camera.height: 480
+camera.fps: 15
+
+# ===========================================
+# SCENARIO 2: YELLOW LINE ONLY
+# ===========================================
+# Use case: Clean field, only need boundary detection
+# Performance: Good (20-25 FPS)
+# Safety: Boundary only
+
+yellow.enable: true
+yellow.safety_distance_m: 0.30
+obstacle.enable: false
+yolo.enable: false
+camera.width: 640
+camera.height: 480
+camera.fps: 20
+
+# ===========================================
+# SCENARIO 3: OBSTACLE ONLY
+# ===========================================
+# Use case: Testing obstacle avoidance, no boundaries
+# Performance: Medium (15-20 FPS)
+# Safety: Obstacle only
+
+yellow.enable: false
+obstacle.enable: true
+obstacle.warning_distance_cm: 40
+yolo.enable: true
+yolo.confidence: 0.5
+yolo.detection_interval: 3
+camera.width: 640
+camera.height: 480
+camera.fps: 15
+
+# ===========================================
+# SCENARIO 4: NAVIGATION ONLY (ArUco Focus)
+# ===========================================
+# Use case: Development, testing navigation algorithms
+# Performance: Excellent (30-40 FPS)
+# Safety: None (controlled environment only!)
+
+yellow.enable: false
+obstacle.enable: false
+yolo.enable: false
+camera.width: 640
+camera.height: 480
+camera.fps: 25
+
+# ===========================================
+# SCENARIO 5: RASPBERRY PI 4 (4GB)
+# ===========================================
+# Use case: Medium hardware, balanced performance
+# Performance: Good (12-15 FPS)
+# Safety: Good
+
+yellow.enable: true
+yellow.safety_distance_m: 0.30
+obstacle.enable: true
+yolo.enable: true
+yolo.model_path: models/yolov5n.onnx  # Use NANO model!
+yolo.confidence: 0.5
+yolo.detection_interval: 5
+camera.width: 640
+camera.height: 480
+camera.fps: 12
+
+# ===========================================
+# SCENARIO 6: RASPBERRY PI 3/3B+
+# ===========================================
+# Use case: Low-end hardware, prioritize stability
+# Performance: Acceptable (8-10 FPS)
+# Safety: Boundary only (obstacle too heavy)
+
+yellow.enable: true
+yellow.safety_distance_m: 0.30
+obstacle.enable: false
+yolo.enable: false
+camera.width: 480
+camera.height: 360
+camera.fps: 10
+
+# ===========================================
+# SCENARIO 7: HIGH-END DESKTOP
+# ===========================================
+# Use case: Strong hardware, maximum quality
+# Performance: Excellent (25-30 FPS)
+# Safety: Maximum
+
+yellow.enable: true
+yellow.safety_distance_m: 0.35
+obstacle.enable: true
+obstacle.warning_distance_cm: 60
+yolo.enable: true
+yolo.model_path: models/yolov5s.onnx
+yolo.confidence: 0.5
+yolo.detection_interval: 2
+yolo.use_cuda: false  # Set true if NVIDIA GPU available
+camera.width: 1280
+camera.height: 720
+camera.fps: 20
+
+# ===========================================
+# SCENARIO 8: DEVELOPMENT/DEBUG MODE
+# ===========================================
+# Use case: Debugging detection algorithms
+# Performance: Good (20-25 FPS)
+# Safety: Configurable
+
+yellow.enable: true
+yellow.safety_distance_m: 0.30
+obstacle.enable: true
+yolo.enable: false
+camera.width: 640
+camera.height: 480
+camera.fps: 15
+debug.enable_panel: true
+debug.show_yellow_mask: true  # Show HSV mask for tuning
+
+# ===========================================
+# SCENARIO 9: ULTRA LOW-END (Last Resort)
+# ===========================================
+# Use case: Very weak hardware, minimal requirements
+# Performance: Acceptable (8-12 FPS)
+# Safety: Minimal
+
+yellow.enable: true
+yellow.safety_distance_m: 0.25
+obstacle.enable: false
+yolo.enable: false
+camera.width: 320
+camera.height: 240
+camera.fps: 8
+debug.enable_panel: false
+
+# ===========================================
+# SCENARIO 10: TESTING - Yellow Detection
+# ===========================================
+# Use case: Testing and tuning yellow line detection
+# Performance: Excellent (25-30 FPS)
+# Safety: Yellow only
+
+yellow.enable: true
+yellow.safety_distance_m: 0.30
+yellow.h_low: 15
+yellow.h_high: 45
+yellow.s_low: 40
+yellow.v_low: 50
+yellow.min_area_ratio: 0.003
+obstacle.enable: false
+yolo.enable: false
+camera.width: 640
+camera.height: 480
+camera.fps: 20
+debug.show_yellow_mask: true
+
+# ===========================================
+# SCENARIO 11: TESTING - Obstacle Detection
+# ===========================================
+# Use case: Testing and tuning obstacle detection
+# Performance: Medium (15-20 FPS)
+# Safety: Obstacle only
+
+yellow.enable: false
+obstacle.enable: true
+obstacle.min_area: 500
+obstacle.emergency_distance_cm: 20
+obstacle.warning_distance_cm: 40
+obstacle.safe_distance_cm: 60
+yolo.enable: true
+yolo.confidence: 0.5
+yolo.detection_interval: 3
+camera.width: 640
+camera.height: 480
+camera.fps: 15
+
+# ===========================================
+# SCENARIO 12: MAXIMUM SAFETY (Conservative)
+# ===========================================
+# Use case: Competition with aggressive safety margins
+# Performance: Medium (12-18 FPS)
+# Safety: Maximum++
+
+yellow.enable: true
+yellow.safety_distance_m: 0.50  # Large safety margin
+obstacle.enable: true
+obstacle.emergency_distance_cm: 30
+obstacle.warning_distance_cm: 80  # Large detection range
+obstacle.safe_distance_cm: 100
+yolo.enable: true
+yolo.confidence: 0.4  # Lower threshold = detect more
+yolo.detection_interval: 2  # More frequent detection
+camera.width: 640
+camera.height: 480
+camera.fps: 12
+
+# ===========================================
+# HOW TO USE:
+# ===========================================
+# 1. Copy section yang sesuai dengan use case anda
+# 2. Paste ke config/rover_config.yaml
+# 3. Edit sesuai kebutuhan
+# 4. Restart autonomous_rover (no rebuild needed)
+#
+# Prioritas tuning (jika lag):
+# 1. Increase yolo.detection_interval (3 → 5 → 8)
+# 2. Reduce camera resolution (640x480 → 480x360)
+# 3. Reduce camera FPS (15 → 12 → 10)
+# 4. Disable YOLO (yolo.enable: false)
+# 5. Disable obstacle (obstacle.enable: false)
+# 6. Keep yellow.enable: true for safety!
+

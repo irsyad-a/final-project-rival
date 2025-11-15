@@ -1,0 +1,76 @@
+# Build artifacts
+build/
+!build/.gitkeep
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Executables
+*.out
+*.exe
+autonomous_rover
+aruco_detection
+autonomous_aruco
+face_blur_detection
+cobaAja_kj
+
+# Object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+
+# Log files
+*.log
+*.txt
+autonomous_navigation_log.txt
+decisions_log.csv
+visited_markers.json
+!CMakeLists.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Video and image captures
+screenshots/
+*.avi
+*.mp4
+*.jpg
+*.png
+!docs/**/*.png
+!aruco_markers/*.png
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Model files (optional)
+*.onnx
+*.weights
+*.pt
+models/
+!models/.gitkeep

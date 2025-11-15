@@ -1,0 +1,118 @@
+# Autonomous Rover Configuration
+
+# IP Camera URL (from IP Webcam / DroidCam etc.)
+camera.url: "http://10.182.43.123:8080/video"
+
+# Camera Performance (set to reduce lag)
+camera.width: 640 # Resolution width (0=auto, 640=recommended for speed)
+camera.height: 480 # Resolution height (0=auto, 480=recommended)
+camera.fps: 12 # Reduce FPS to lower CPU load
+
+# Robot connection (USB Serial or Bluetooth RFCOMM)
+# Example USB: /dev/ttyUSB0 or /dev/ttyACM0
+# Example BT:  /dev/rfcomm0
+robot.port: "/dev/rfcomm0"
+robot.baud: 9600
+robot.send_char_controls: true
+robot.send_ascii_protocol: false
+
+# Speeds (0..255)
+speed.forward: 160
+speed.back: 150
+speed.turn: 140
+
+# Open-loop calibration (tune on your rover)
+calibration.ms_per_cm: 80
+calibration.ms_per_deg: 12
+
+# Protocol mode: "standard" (MOVE/TURN/STOP) or "stm32" (F/B/TL/TR/S/HB)
+protocol.mode: "stm32"
+
+# Debug/telemetry
+debug.enable_panel: true
+debug.csv_path: "decisions_log.csv"
+debug.show_yellow_mask: false # Set true to show yellow detection mask for debugging
+debug.enable_yellow_tuner: false # Set true to enable live HSV/Lab tuner window
+debug.verbose_distance: false # True = spam log jarak kuning (akan menambah lag)
+debug.show_routine_feed: true # TRUE = tampilkan preview saat mode terarah (lebih berat)
+debug.show_routine_popup: true # TRUE = pop-up ID ArUco ketika terdeteksi
+
+# Camera mounting parameters (untuk estimasi jarak)
+camera:
+  url: "http://10.182.43.123:8080/video"
+  height_cm: 11.0         # NEW: Tinggi kamera dari permukaan tanah (cm) - CHANGED to 11 cm
+  fov_vertical: 50.0      # NEW: Field of view vertikal kamera (derajat)
+  tilt_angle: 90.0        # NEW: Sudut tilt kamera dari horizontal (90 = lurus ke bawah)
+  calibration_factor: 1.0 # NEW: Calibration factor untuk fine-tune estimasi jarak
+
+# Yellow Line Detection (boundary detection)
+yellow:
+  enable: true
+  h_low: 15 # Mulai dari 15-20 untuk kuning
+  h_high: 45 # Widening ke 45 untuk variasi hue
+  s_low: 80
+  v_low: 100
+  lab_a_low: 0 # Widening untuk reject greens/reds
+  lab_a_high: 135
+  lab_b_low: 135 # High B untuk kuning
+  combine_or: true # Gunakan OR untuk coverage lebih baik
+  band_top_ratio: 70 # Bottom 30% frame (sesuaikan jika garis muncul lebih atas)
+  relative_min_y: 0.50 # Garis harus minimal 50% dari atas frame
+  min_area_ratio: 0.02 # Area minimal contour (tingkatkan jika false positives)
+  safety_distance_m: 0.30 # Jarak aman (cm ke m)
+
+# UI window sizes
+ui.camera_w: 640
+ui.camera_h: 360
+ui.panel_w: 520
+ui.panel_h: 420
+ui.show_map: false
+
+# Performance helper (aktifkan jika laptop lemot)
+performance.low_power_mode: true
+performance.low_power_width: 480
+performance.low_power_height: 360
+aruco.detection_interval: 2 # Jalankan deteksi ArUco tiap 2 frame (lebih kecil = lebih berat)
+
+# Yellow ROI and vertical constraints
+yellow.band_top_ratio: 60 # Analyze bottom X% of frame (line dalam contoh di area tengah-bawah)
+yellow.relative_min_y: 0.45 # Lower threshold to accept slightly higher stripe
+
+# Obstacle detection (vision-based)
+obstacle.enable: false
+obstacle.enable_motion: false
+obstacle.min_area: 500
+obstacle.emergency_distance_cm: 20
+obstacle.warning_distance_cm: 40
+obstacle.safe_distance_cm: 60
+
+# Path planning
+path.grid_resolution_cm: 5
+path.exploration_pattern: spiral
+path.replan_on_obstacle: true
+path.waypoint_tolerance_cm: 10
+
+# YOLOv5 Object Detection (requires ONNX Runtime)
+yolo.enable: false
+yolo.model_path: models/yolov5s.onnx # Use yolov5n.onnx for faster speed
+yolo.confidence: 0.5
+yolo.use_cuda: false
+yolo.detection_interval: 3 # Run YOLO every N frames (1=every frame, 3=every 3rd frame)
+
+aruco.priority_distance_cm: 40 # If ArUco target within this distance (cm), prefer scanning over turning
+aruco.scan_distance_cm: 35 # Consider marker scanned when within this distance (cm)
+
+ exploration.scan_cooldown_ms: 2000 # Min interval between spin scans
+ exploration.marker_grace_ms: 1500 # If a marker seen recently, avoid spinning; go forward
+
+# Performance: reduce yellow detection frequency
+yellow.detection_interval: 3
+yellow.h_low: 15
+yellow.h_high: 42
+yellow.s_low: 80
+yellow.v_low: 100
+yellow.min_area_ratio: 0.0050
+yellow.lab_b_low: 140
+yellow.lab_a_low: 120
+yellow.lab_a_high: 170
+yellow.combine_or: true
