@@ -47,7 +47,6 @@ cd ..
 
 ### 🧩 Modular Architecture
 
-- **Path Planner** - A\* pathfinding algorithm
 - **Obstacle Detector** - Real-time obstacle detection
 - **Robot Bridge** - Hardware abstraction layer
 - **Serial Transport** - Reliable serial communication
@@ -751,7 +750,7 @@ cd ArUco-Detec-Autonomous
 
 ---
 
-**Made with ❤️ using OpenCV & C++**
+**Made with ❤️**
 
 [![GitHub](https://img.shields.io/badge/GitHub-irsyad--a-blue?logo=github)](https://github.com/irsyad-a/ArUco-Detec-Autonomous)
 [![Issues](https://img.shields.io/badge/Issues-Report-red?logo=github)](https://github.com/irsyad-a/ArUco-Detec-Autonomous/issues)
